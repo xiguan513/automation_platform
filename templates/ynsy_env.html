@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block extra-head-resources %}
+<script type="text/javascript" src="/static/js/id_numb.js"></script>
+{% endblock %}
+{% block body %}
+
+<table class="table table-bordered;table table-hover" style="margin-top: 10px">
+    <thead>
+<thead>
+        <tr>
+            <th>Id</th>
+            <th>Server Ip</th>
+            <th>Role</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {% for ip,vlaue in docker_dict.items %}
+            <tr>
+                <td>id</td>
+                <td>{{ ip }}</td>
+                {% if vlaue == 'master' %}
+                        <td style="padding: 1px"><span class="btn btn-success" style="cursor:default;border-radius:50px;width: 75px"><a href="/show/?hostname={{ ip }}" >{{ vlaue }}</a></span></td>
+                {% else %}
+                       <td><a href="/show/?hostname={{ ip }}" >{{ vlaue }}</a></td>
+                {% endif %}
+
+            </tr>
+
+        {% endfor %}
+
+    </tbody>
+</table>
+{% endblock %}

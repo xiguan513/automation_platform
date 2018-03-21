@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block extra-head-resources %}
+<script type="text/javascript" src="/static/js/id_numb.js"></script>
+{% endblock %}
+{% block body %}
+
+<table class="table table-bordered;table table-hover" style="margin-top: 10px">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Swarm Ip</th>
+            <th>Swarm Id</th>
+            <th>Swarm Hostname</th>
+            <th>Swarm Stauts</th>
+            <th>Swarm Availability</th>
+            <th>Swarm Role</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ip,vlaue in node_satus.items %}
+            <tr>
+                <td>id</td>
+                <td>{{ ip }}</td>
+                <td>{{ vlaue.Id }}</td>
+                <td>{{ vlaue.Hostname }}</td>
+                <td>{{ vlaue.Status }}</td>
+                <td>{{ vlaue.Availability }}</td>
+                {% if vlaue.Role == 'manager' %}
+                        <td style="padding: 1px"><span class="btn btn-success" style="cursor:default;border-radius:50px;width: 75px">{{ vlaue.Role }}</span></td>
+                {% else %}
+                       <td>{{ vlaue.Role }}</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

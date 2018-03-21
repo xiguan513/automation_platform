@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block extra-head-resources %}
+<script type="text/javascript" src="/static/js/id_numb.js"></script>
+{% endblock %}
+{% block body %}
+
+<table class="table table-bordered;table table-hover" style="margin-top: 10px">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Docker Environment</th>
+            <th>Docker Describe</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {% for vlaue in env_status %}
+            <tr>
+                <td>id</td>
+                <td><a href="/env/?id={{ vlaue.2 }}">{{ vlaue.0 }}</a></td>
+                <td>{{ vlaue.1 }}</td>
+            </tr>
+        {% endfor %}
+
+    </tbody>
+</table>
+{% endblock %}

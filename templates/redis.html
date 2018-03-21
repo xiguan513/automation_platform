@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block extra-head-resources %}
+<script type="text/javascript" src="/static/js/id_numb.js"></script>
+{% endblock %}
+{% block body %}
+
+<table class="table table-bordered;table table-hover" style="margin-top: 10px">
+    <thead>
+        <tr>
+            <th>Redis ID</th>
+            <th>Redis Key</th>
+            <th>Redis Value</th>
+            <th>Redis IP</th>
+            <th>redis_flush_key</th>
+            <th>redis_flush_db</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ ip }}</td>
+            <td>{{ redis_key }}</td>
+            <td>{{ redis_value }}</td>
+            <td>{{ redis_ip }}</td>
+            <td>{{ redis_flush_key }}</td>
+            <td>{{ redis_flush_db }}</td>
+        </tr>
+        <form action="redis_db" method="get">
+              Redis Ip: <input type="text" name="Redisip" />
+              Redis key: <input type="text" name="Rediskey" />
+              <input type="submit" value="查询" />
+              Redis flush Key: <input type="text" name="flushkey" />
+              <input type="submit" value="清除" />
+              Redis Flushdb: <input type="text" name="flushdb" />
+              <input type="submit" value="清除" />
+
+        </form>
+    </tbody>
+</table>
+{% endblock %}

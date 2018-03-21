@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block extra-head-resources %}
+<script type="text/javascript" src="/static/js/id_numb.js"></script>
+{% endblock %}
+{% block body %}
+
+<table class="table table-bordered;table table-hover" style="margin-top: 10px">
+    <thead>
+<thead>
+        <tr>
+            <th>Id</th>
+            <th>Server Ip</th>
+            <th>Names</th>
+            <th>Stauts</th>
+            <th>Image</th>
+            <th>Id</th>
+            <th>Status</th>
+            <th>Operation</th>
+            <th>Log</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for vlaue in containers_status %}
+            <tr>
+                <td>id</td>
+                <td>{{ ip }}</td>
+                <td>{{ vlaue.Names.0 }}</td>
+                <td>{{ vlaue.State }}</td>
+                <td>{{ vlaue.Image }}</td>
+                <td>{{ vlaue.Id|slice:"10" }}</td>
+                <td>{{ vlaue.Status }}</td>
+                <td>
+                    <button type="submit" id="start" name="start_submit"> 启动 </button>
+                    <button type="submit" id="stop" name="stop_submit"> 停止 </button>
+                </td>
+
+                <td><a href="/log/now/?hostname={{ ip }}&container_name={{ vlaue.Id }}" class="btn btn-primary btn-xs build" >info</a>
+
+{#                <td>{{ vlaue }}</td>#}
+            </tr>
+
+        {% endfor %}
+
+    </tbody>
+</table>
+{% endblock %}

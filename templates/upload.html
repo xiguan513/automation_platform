@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+{% extends 'base.html' %}
+{% block extra-head-resources %}
+    <script type="text/javascript" src="/static/js/id_numb.js"></script>
+{% endblock %}
+{% block body %}
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            {% for projectname in project_name %}
+                <form  class="form-inline" role="form" method="post" enctype="multipart/form-data" accept-charset="utf-8">
+                    {% csrf_token %}
+                    lvph api : <input type="text" name="project" value="{{ projectname.0 }}" />
+                    <input type="submit"  value="更新 {{ projectname.0 }} swagger"/>
+                </form>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
+</html>
+
+
+
+
+
+
+

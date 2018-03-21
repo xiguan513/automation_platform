@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block extra-head-resources %}
+<script type="text/javascript" src="/static/js/id_numb.js"></script>
+{% endblock %}
+{% block body %}
+
+<table class="table table-bordered;table table-hover" style="margin-top: 10px">
+    <thead>
+        <tr>
+             <th>Id</th>
+            <th>ID</th>
+            <th>Image</th>
+            <th>State</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for container in docker_containers %}
+        <tr>
+            <td>id</td>
+            <td>{{ container.Id }}</td>
+            <td>{{ container.Image }}</td>
+            <td>{{ container.State }}</td>
+            <td>{{ container.Status }}</td>
+
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
