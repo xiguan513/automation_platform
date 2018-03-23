@@ -47,7 +47,7 @@ def UserLogin(request):
 
 def UserLogout(request):
     logout(request)
-    return HttpResponseRedirect("/")
+    return HttpResponse("logout")
 
 def index(request):
     env_status = [value for value in Dockerenv.objects.values_list("envname","envdescribe","id").all()]

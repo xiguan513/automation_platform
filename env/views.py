@@ -39,3 +39,25 @@ def index_env(id):
         docker_dict[ip] = role
     return docker_dict
 
+
+def start_stop(request):
+    ip = request.GET["ip"]
+    id = request.GET["id"]
+    docker_status = request.GET["docker_status"]
+    port = DockerServer.objects.values_list("port").filter(ip=ip).first()[0]
+    containers_status = docker_con.Docker_Con(ip, port).Docker_Cli()
+    if docker_status == "start":
+        if containers_status.start(id):
+            return HttpResponse("start fail")
+        else:
+            return HttpResponse("start sucesss")
+    elif docker_status == "stop":
+        if containers_status.stop(id):
+            return HttpResponse("stop fail")
+        else:
+            return HttpResponse("stop sucesss")
+    elif docker_status == "restart":
+        if containers_status.restart(id):
+            return HttpResponse("restart fail")
+        else:
+            return HttpResponse("restart sucesss")

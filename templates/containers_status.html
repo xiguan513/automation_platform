@@ -30,16 +30,33 @@
                 <td>{{ vlaue.Id|slice:"10" }}</td>
                 <td>{{ vlaue.Status }}</td>
                 <td>
-                    <button type="submit" id="start" name="start_submit"> 启动 </button>
-                    <button type="submit" id="stop" name="stop_submit"> 停止 </button>
+                <button onclick="button('{{ ip }}','{{ vlaue.Id }}','start')" >Start</button>
+                <button onclick="button('{{ ip }}','{{ vlaue.Id }}','stop')">Stop</button>
+                <button onclick="button('{{ ip }}','{{ vlaue.Id }}','restart')">Restart</button>
+                <script>
+                  var ip =  "{{ ip }}"
+                  var id = "{{ vlaue.Id }}"
+                  function button (ip,id,docker_status) {
+                      $.ajax({
+                          url: '/env/start_stop/',
+                          type: 'get',
+                          data: {"ip": ip, "id": id,"docker_status":docker_status},
+                          dataType: 'html',
+                          success: function (data) {
+                              alert(data)
+                          }
+                      });
+
+
+                  }
+
+
+                </script>
                 </td>
-
                 <td><a href="/log/now/?hostname={{ ip }}&container_name={{ vlaue.Id }}" class="btn btn-primary btn-xs build" >info</a>
-
-{#                <td>{{ vlaue }}</td>#}
             </tr>
-
         {% endfor %}
+
 
     </tbody>
 </table>
