@@ -51,20 +51,15 @@
                           dataType: 'html',
                           success: function (data) {
                               alert(data)
+                              window.location.reload(true)
                           }
                       });
-
-
                   }
-
-
                 </script>
                 </td>
                 <td><a href="/log/now/?hostname={{ ip }}&container_name={{ vlaue.Id }}" class="btn btn-primary btn-xs build" >info</a>
             </tr>
         {% endfor %}
-
-
     </tbody>
 </table>
 {% endblock %}

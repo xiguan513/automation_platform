@@ -24,6 +24,7 @@ from config.models import Dockerenv,DockerServer,ReDoc
 
 # Create your views here.
 
+
 def UserLogin(request):
     errors = {}
     if request.method == 'GET':
@@ -31,7 +32,6 @@ def UserLogin(request):
     elif request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        print(username, password)
         user = authenticate(username=username, password=password)
         if user:
             login(request, user)
@@ -45,28 +45,30 @@ def UserLogin(request):
             errors = {'error': 'User Lgin Fail'}
             return render(request, 'login.html', errors)
 
+
 def UserLogout(request):
     logout(request)
-    return HttpResponse("logout")
+    return HttpResponseRedirect("/")
 
+@login_required
 def index(request):
     env_status = [value for value in Dockerenv.objects.values_list("envname","envdescribe","id").all()]
     return render(request,'index.html',{"env_status":env_status})
 
+
+@login_required
 def show(request):
     hostname = request.GET["hostname"]
     port = DockerServer.objects.values_list("port").filter(ip=hostname).filter()[0][0]
     containers_status = docker_con.Docker_Con(hostname,port).Docker_Cli().containers(all=True)
     return render(request,'containers_status.html',{"containers_status":containers_status,"ip":hostname})
 
-def status(request):
-    start_stop = request.GET["start_stop"]
-    return HttpResponse(start_stop)
 
-
+@login_required
 def redis_index(request):
     return render(request,'redis.html')
 
+@login_required
 def redis(request):
     if request.GET["Redisip"] and request.GET["Rediskey"]:
         redis_ip = request.GET["Redisip"]
@@ -108,13 +110,12 @@ def redis(request):
             })
 
 
-
+@login_required
 def upload(request):
     docker_ip,docker_port = DockerServer.objects.values_list("ip", "port").filter(role="redoc").first()
     cli = docker_con.Docker_Con(docker_ip,docker_port).Docker_Cli()
     if request.method=="POST":
         name = request.POST.get('project')
-        print(name)
         if name == "lph":
             docker_name, redoc_url,redoc_path = ReDoc.objects.values_list("dockername", "projecturl","projectpath").filter(
                 projectname=name).first()

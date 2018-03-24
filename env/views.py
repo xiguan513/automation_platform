@@ -30,7 +30,7 @@ from config.models import Dockerenv,DockerServer,ReDoc
 
 # Create your views here.
 
-
+@login_required
 def env(request):
     envid = request.GET["id"]
     envid = int(envid)
@@ -54,6 +54,7 @@ def index_env(id):
     return (docker_dict,container_dict)
 
 
+@login_required
 def start_stop(request):
     ip = request.GET["ip"]
     id = request.GET["id"]
