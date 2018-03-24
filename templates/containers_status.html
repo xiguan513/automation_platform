@@ -1,32 +1,39 @@
 {% extends 'base.html' %}
 {% block extra-head-resources %}
-<script type="text/javascript" src="/static/js/id_numb.js"></script>
+<script type="text/javascript" src="/static/js/id_numb.js" xmlns="http://www.w3.org/1999/html"></script>
 {% endblock %}
 {% block body %}
 
 <table class="table table-bordered;table table-hover" style="margin-top: 10px">
     <thead>
-<thead>
+    <thead>
         <tr>
             <th>Id</th>
             <th>Server Ip</th>
-            <th>Names</th>
-            <th>Stauts</th>
-            <th>Image</th>
-            <th>Id</th>
+            <th>Name</th>
             <th>Status</th>
-            <th>Operation</th>
+            <th>Image</th>
+            <th>ID</th>
+            <th>Time</th>
+            <th>Operate</th>
             <th>Log</th>
         </tr>
+
     </thead>
     <tbody>
         {% for vlaue in containers_status %}
             <tr>
                 <td>id</td>
                 <td>{{ ip }}</td>
-                <td>{{ vlaue.Names.0 }}</td>
-                <td>{{ vlaue.State }}</td>
+                <td>{{ vlaue.Names.0|slice:"20" }}</td>
+                {% if vlaue.State == "running" %}
+                <td  style="padding: 1px"><span class="btn btn-success" style="cursor:default;border-radius:50px;width: 75px">{{ vlaue.State }} </span></td>
                 <td>{{ vlaue.Image }}</td>
+                {% else %}
+                    <td>Not running</td>
+                    <td>{{ vlaue.Image|slice:"20" }}</td>
+                {% endif %}
+
                 <td>{{ vlaue.Id|slice:"10" }}</td>
                 <td>{{ vlaue.Status }}</td>
                 <td>

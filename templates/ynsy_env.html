@@ -10,8 +10,7 @@
         <tr>
             <th>Id</th>
             <th>Server Ip</th>
-            <th>Role</th>
-
+            <th>Include Container</th>
         </tr>
     </thead>
     <tbody>
@@ -19,11 +18,7 @@
             <tr>
                 <td>id</td>
                 <td>{{ ip }}</td>
-                {% if vlaue == 'master' %}
-                        <td style="padding: 1px"><span class="btn btn-success" style="cursor:default;border-radius:50px;width: 75px"><a href="/show/?hostname={{ ip }}" >{{ vlaue }}</a></span></td>
-                {% else %}
-                       <td><a href="/show/?hostname={{ ip }}" >{{ vlaue }}</a></td>
-                {% endif %}
+                <td><a href="/show/?hostname={{ ip }}" >{{ vlaue }}</a></td>
 
             </tr>
 
