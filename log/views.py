@@ -24,11 +24,38 @@ def LogNow(request):
     if request.method == 'GET':
         Hostname = request.GET.get('hostname')
         ContainerName = request.GET.get('container_name')
-        Port = DockerServer.objects.values_list("port").filter(ip=Hostname).first()[0]
-        logs = docker_log.DockerLog(Hostname,Port,ContainerName)
-        logs_str = mark_safe(str(logs, encoding="utf-8"))
-        info = {'logs': logs_str,'hostname': Hostname, 'container_name': ContainerName}
-        return render(request, 'log/lognow.html', info)
+        find_time = request.GET.get('find_time')
+        log_type = request.GET.get('log_type')
+        if log_type != "dump":
+            if not find_time:
+                Port = DockerServer.objects.values_list("port").filter(ip=Hostname).first()[0]
+                logs = docker_log.DockerLog(Hostname,Port,ContainerName)
+                logs_str = mark_safe(str(logs, encoding="utf-8"))
+                info = {'logs': logs_str,'hostname': Hostname, 'container_name': ContainerName}
+                return render(request, 'log/lognow.html', info)
+            else:
+                Port = DockerServer.objects.values_list("port").filter(ip=Hostname).first()[0]
+                logs = docker_log.DockerLog(Hostname,Port,ContainerName,find_time)
+                logs_str = mark_safe(str(logs, encoding="utf-8"))
+                info = {'logs': logs_str,'hostname': Hostname, 'container_name': ContainerName}
+                return render(request, 'log/lognow.html', info)
+        if log_type == "dump":
+            if not find_time:
+                Port = DockerServer.objects.values_list("port").filter(ip=Hostname).first()[0]
+                logs = docker_log.DockerLog(Hostname,Port,ContainerName)
+                logs_str = mark_safe(str(logs, encoding="utf-8"))
+                with open("container_name.log","w+") as f:
+                    f.writelines(logs_str)
+                    return HttpResponse("ceshi")
+            else:
+                Port = DockerServer.objects.values_list("port").filter(ip=Hostname).first()[0]
+                logs = docker_log.DockerLog(Hostname,Port,ContainerName,find_time)
+                logs_str = mark_safe(str(logs, encoding="utf-8"))
+                with open("container_name.log","w+") as f:
+                    f.writelines(logs_str)
+                    return HttpResponse("ceshi")
+
+
 
 
 
