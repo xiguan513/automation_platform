@@ -14,8 +14,10 @@ from collections import deque
 from config import docker_log,docker_con
 from config.models import DockerServer,Dockerenv,ReDoc
 from django.contrib.auth.decorators import login_required
-
+from django.http import FileResponse
 # Create your views here.
+
+path_dir = "dump/"
 
 
 @login_required
@@ -44,23 +46,33 @@ def LogNow(request):
                 Port = DockerServer.objects.values_list("port").filter(ip=Hostname).first()[0]
                 logs = docker_log.DockerLog(Hostname,Port,ContainerName)
                 logs_str = mark_safe(str(logs, encoding="utf-8"))
-                with open("container_name.log","w+") as f:
+                container = docker_con.Docker_Con(Hostname,Port).Docker_Cli().containers(filters={"id": ContainerName})
+                container_name = str([name["Names"] for name in container][0][0].split("/")[1])
+                if not os.path.exists(path_dir):
+                    os.mkdir(path_dir)
+                with open(path_dir+container_name,"w+",encoding="utf-8") as f:
                     f.writelines(logs_str)
-                    return HttpResponse("ceshi")
+                    return file_down(request,path_dir,container_name)
             else:
                 Port = DockerServer.objects.values_list("port").filter(ip=Hostname).first()[0]
                 logs = docker_log.DockerLog(Hostname,Port,ContainerName,find_time)
                 logs_str = mark_safe(str(logs, encoding="utf-8"))
-                with open("container_name.log","w+") as f:
+                container = docker_con.Docker_Con(Hostname,Port).Docker_Cli().containers(filters={"id": ContainerName})
+                container_name = [name["Names"] for name in container][0][0]
+                if not os.path.exists(path_dir):
+                    os.mkdir(path_dir)
+                with open(path_dir+container_name,"w+",encoding="utf-8") as f:
                     f.writelines(logs_str)
-                    return HttpResponse("ceshi")
+                    return file_down(request,path_dir,container_name)
 
-
-
-
-
-
-
+def file_down(request,path,name):
+        file = open(path+name,"rb")
+        response =FileResponse(file)
+        response['Content-Type'] = 'application/octet-stream'
+        response['Content-Length'] = os.path.getsize(path+name)
+        response['Content-Encoding'] = 'utf-8'
+        response['Content-Disposition'] = 'attachment;filename="%s"' % name
+        return response
 
 
 

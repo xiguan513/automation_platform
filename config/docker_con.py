@@ -18,6 +18,7 @@ class Docker_Con(object):
         return self.client
 
 if __name__=="__main__":
-    a = Docker_Con("192.168.1.136","5555")
-    for i in a.Docker_Cli().containers():
-        print(i)
+
+    a = Docker_Con("192.168.1.136","5555").Docker_Cli().containers(filters={"id":"3326dda5d38e"})
+    b = [name["Names"] for name in a][0][0].split("/")[1]
+    print(b)
