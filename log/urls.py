@@ -18,4 +18,5 @@ from . import views
 
 urlpatterns = [
     url(r'now/',views.LogNow, name='lognow'),
+    url(r'dump/',views.LogNow,name='LogNow'),
 ]
