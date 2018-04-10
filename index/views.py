@@ -74,12 +74,20 @@ def redis(request):
         redis_ip = request.GET["Redisip"]
         redis_key = request.GET["Rediskey"]
         if redis_ip and redis_key:
-            cli = redis_con.redis_cli(redis_ip, '6379').get(redis_key)
+            cli = bytes(redis_con.redis_cli(redis_ip, '6379').get(redis_key))
             if cli:
-                return render(request,'redis.html',{
-                    'redis_value':cli.decode("utf-8"),
-                    'redis_key': redis_key,
-                    'redis_ip': redis_ip,
+                try:
+                    return render(request,'redis.html',{
+                        'redis_value':cli.decode("utf-8"),
+                        'redis_key': redis_key,
+                        'redis_ip': redis_ip,
+
+                        })
+                except:
+                    return render(request, 'redis.html', {
+                        'redis_value': cli,
+                        'redis_key': redis_key,
+                        'redis_ip': redis_ip,
 
                     })
             else:
