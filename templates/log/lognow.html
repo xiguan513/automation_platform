@@ -7,6 +7,7 @@
                     <span style="border: 1px solid red">hostanme:{{ hostname }}|container_name:{{ container_name }}</span>
                     <input type="hidden" name="hostname" value="{{ hostname }}">
                     <input type="hidden" name="container_name" value="{{ container_name }}">
+                    日志查询时间：
                     <input name="find_time" type="number" placeholder="请输入分钟" style="height: 30px;width: 100px;border: 1px solid red">
                     <input type="submit" value="查找"/>
                 </form>
@@ -15,6 +16,7 @@
                 <form action="/log/dump/" method="get">
                     <input type="hidden" name="hostname" value="{{ hostname }}">
                     <input type="hidden" name="container_name" value="{{ container_name }}">
+                    日志下载时间：
                     <input name="find_time" type="number" placeholder="请输入分钟" style="height: 30px;width: 100px;border: 1px solid red">
                     <input type="hidden" name="log_type" value="dump">
                     <input type="submit" value="下载文件"/>
